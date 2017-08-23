@@ -33,6 +33,8 @@ source:
       telephone: Telephone
     8:
       email: Email
+    14:
+      reason: 'Membership reason'
 process:
   name:
     -
@@ -52,6 +54,7 @@ process:
   field_last_name: last_name
   field_telephone_number: telephone
   field_structured_memo: memo
+  field_membership_reason: reason
 destination:
   plugin: 'entity:user'
 migration_dependencies: null

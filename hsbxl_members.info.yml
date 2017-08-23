@@ -13,6 +13,7 @@ dependencies:
   - pathauto
   - system
   - telephone
+  - text
   - user
   - views
 description: 'Everything needed for HSBXL member management.'
