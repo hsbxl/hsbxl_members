@@ -44,9 +44,14 @@ process:
       plugin: skip_on_empty
       method: process
       source: email
+  status:
+    -
+      plugin: default_value
+      default_value: 1
   field_first_name: first_name
   field_last_name: last_name
   field_telephone_number: telephone
+  field_structured_memo: memo
 destination:
   plugin: 'entity:user'
 migration_dependencies: null

@@ -9,7 +9,11 @@ dependencies:
     - field.field.user.user.field_structured_memo
     - field.field.user.user.field_telephone_number
     - field.field.user.user.field_voting_member
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
   module:
+    - image
+    - telephone
     - user
 id: user.user.default
 targetEntityType: user
@@ -17,33 +21,35 @@ bundle: user
 mode: default
 content:
   field_board_member:
+    type: boolean
     weight: 5
+    region: content
     label: inline
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    type: boolean
-    region: content
   field_first_name:
-    weight: 2
+    type: string
+    weight: 1
+    region: content
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
-    region: content
   field_last_name:
-    weight: 3
+    type: string
+    weight: 2
+    region: content
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
-    region: content
   field_space_coins:
-    weight: 0
+    type: number_decimal
+    weight: 7
+    region: content
     label: inline
     settings:
       thousand_separator: ''
@@ -51,33 +57,40 @@ content:
       scale: 2
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_decimal
-    region: content
   field_structured_memo:
-    weight: 1
+    type: string
+    weight: 3
+    region: content
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
-    region: content
   field_telephone_number:
+    type: telephone_link
     weight: 4
+    region: content
     label: inline
     settings:
-      link_to_entity: false
+      title: ''
     third_party_settings: {  }
-    type: string
-    region: content
   field_voting_member:
+    type: boolean
     weight: 6
+    region: content
     label: inline
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    type: boolean
+  user_picture:
+    type: image
+    weight: 0
     region: content
+    settings:
+      image_style: thumbnail
+      image_link: content
+    third_party_settings: {  }
+    label: hidden
 hidden:
   member_for: true

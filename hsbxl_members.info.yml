@@ -5,6 +5,8 @@ dependencies:
   - block
   - field
   - field_permissions
+  - file
+  - image
   - migrate_plus
   - path
   - system
