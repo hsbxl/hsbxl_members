@@ -11,12 +11,14 @@ label: 'Import HSBXL members'
 source:
   plugin: csv
   path: /home/vagrant/members.csv
-  delimiter: ';'
+  delimiter: ','
   enclosure: '"'
   header_row_count: 1
   keys:
     - id
   column_names:
+    0:
+      id: 'CSV ID'
     1:
       date: 'Entry date'
     2:
@@ -26,14 +28,22 @@ source:
     5:
       last_name: 'Last name'
     6:
-      username: 'Username'
+      username: Username
     7:
-      telephone: 'Telephone'
+      telephone: Telephone
     8:
-      email: 'Email'
+      email: Email
 process:
-  name: username
-  mail: email
+  name:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: username
+  mail:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: email
   field_first_name: first_name
   field_last_name: last_name
   field_telephone_number: telephone
