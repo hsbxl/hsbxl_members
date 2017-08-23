@@ -12,10 +12,63 @@ dependencies:
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
+    - field_group
     - image
     - path
     - telephone
     - user
+third_party_settings:
+  field_group:
+    group_financial:
+      children:
+        - field_structured_memo
+        - field_space_coins
+      parent_name: ''
+      weight: 1
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Financial
+    group_personal:
+      children:
+        - account
+        - field_voting_member
+        - field_board_member
+        - field_first_name
+        - field_last_name
+        - field_telephone_number
+        - user_picture
+      parent_name: ''
+      weight: 0
+      format_type: tab
+      format_settings:
+        label: Personal
+        formatter: closed
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: Personal
+    group_extra:
+      children:
+        - language
+        - contact
+        - timezone
+        - path
+      parent_name: ''
+      weight: 2
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+      label: Extra
 id: user.user.default
 targetEntityType: user
 bundle: user
@@ -27,20 +80,20 @@ content:
     settings: {  }
     third_party_settings: {  }
   contact:
-    weight: 10
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   field_board_member:
     type: boolean_checkbox
-    weight: 7
+    weight: 2
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_first_name:
     type: string_textfield
-    weight: 1
+    weight: 3
     region: content
     settings:
       size: 60
@@ -48,7 +101,7 @@ content:
     third_party_settings: {  }
   field_last_name:
     type: string_textfield
-    weight: 2
+    weight: 4
     region: content
     settings:
       size: 60
@@ -56,7 +109,7 @@ content:
     third_party_settings: {  }
   field_space_coins:
     type: number
-    weight: 3
+    weight: 7
     region: content
     settings:
       placeholder: ''
@@ -78,24 +131,24 @@ content:
     third_party_settings: {  }
   field_voting_member:
     type: boolean_checkbox
-    weight: 8
+    weight: 1
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   language:
-    weight: 9
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 12
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 11
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -105,6 +158,6 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    weight: 4
+    weight: 6
     region: content
 hidden: {  }

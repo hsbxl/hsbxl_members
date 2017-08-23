@@ -10,7 +10,7 @@ field_name: field_voting_member
 entity_type: user
 bundle: user
 label: 'Voting member'
-description: 'Is this member a voting member? This means this member will be listed on the legal members list which we need to give when asked for by officials.'
+description: 'Is this member a voting member? If selected, this member will be listed on the legal members list which we need to give when asked by officials.'
 required: false
 translatable: false
 default_value:
