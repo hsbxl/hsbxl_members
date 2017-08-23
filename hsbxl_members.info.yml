@@ -10,6 +10,7 @@ dependencies:
   - image
   - migrate_plus
   - path
+  - pathauto
   - system
   - telephone
   - user
