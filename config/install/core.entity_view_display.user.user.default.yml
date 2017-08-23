@@ -12,9 +12,67 @@ dependencies:
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
+    - field_group
     - image
     - telephone
     - user
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_personal
+        - group_financial
+        - group_extra
+      parent_name: ''
+      weight: 20
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: tabs
+    group_personal:
+      children:
+        - user_picture
+        - field_first_name
+        - field_last_name
+        - field_telephone_number
+        - field_board_member
+        - field_voting_member
+        - member_for
+      parent_name: group_tabs
+      weight: 20
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Personal
+    group_financial:
+      children:
+        - field_space_coins
+        - field_structured_memo
+      parent_name: group_tabs
+      weight: 21
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Financial
+    group_extra:
+      children: {  }
+      parent_name: group_tabs
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+      label: Extra
 id: user.user.default
 targetEntityType: user
 bundle: user
@@ -22,7 +80,7 @@ mode: default
 content:
   field_board_member:
     type: boolean
-    weight: 6
+    weight: 4
     region: content
     label: inline
     settings:
@@ -48,7 +106,7 @@ content:
     third_party_settings: {  }
   field_space_coins:
     type: number_decimal
-    weight: 3
+    weight: 0
     region: content
     label: inline
     settings:
@@ -59,7 +117,7 @@ content:
     third_party_settings: {  }
   field_structured_memo:
     type: string
-    weight: 4
+    weight: 1
     region: content
     label: inline
     settings:
@@ -67,7 +125,7 @@ content:
     third_party_settings: {  }
   field_telephone_number:
     type: telephone_link
-    weight: 5
+    weight: 3
     region: content
     label: inline
     settings:
@@ -75,13 +133,18 @@ content:
     third_party_settings: {  }
   field_voting_member:
     type: boolean
-    weight: 7
+    weight: 5
     region: content
     label: inline
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
+    third_party_settings: {  }
+  member_for:
+    weight: 6
+    region: content
+    settings: {  }
     third_party_settings: {  }
   user_picture:
     type: image
@@ -92,5 +155,4 @@ content:
       image_link: content
     third_party_settings: {  }
     label: hidden
-hidden:
-  member_for: true
+hidden: {  }
