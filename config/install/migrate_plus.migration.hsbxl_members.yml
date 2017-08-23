@@ -11,8 +11,8 @@ label: 'Import HSBXL members'
 source:
   plugin: csv
   path: /home/vagrant/members.csv
-  delimiter: ;
-  enclosure: ''
+  delimiter: ';'
+  enclosure: '"'
   header_row_count: 1
   keys:
     - id
@@ -21,37 +21,22 @@ source:
       date: 'Entry date'
     2:
       memo: 'Structured memo'
-    3:
-      amount: Amount
+    4:
+      first_name: 'First name'
+    5:
+      last_name: 'Last name'
     6:
-      account: Bankaccount
+      username: 'Username'
     7:
-      name: Name
+      telephone: 'Telephone'
     8:
-      memo: Memo
+      email: 'Email'
 process:
-  title:
-    plugin: default_value
-    default_value: 'bankstatement XYZ'
-  field_bankstatement_amount:
-    -
-      plugin: str_replace
-      source: amount
-      search: .
-      replace: ''
-    -
-      plugin: str_replace
-      search: ','
-      replace: .
-  field_bankstatement_account: account
-  field_bankstatement_name: name
-  field_bankstatement_memo: memo
-  field_bankstatement_date:
-    plugin: format_date
-    from_format: d-m-Y
-    to_format: Y-m-d
-    source: date
+  name: username
+  mail: email
+  field_first_name: first_name
+  field_last_name: last_name
+  field_telephone_number: telephone
 destination:
-  plugin: 'entity:booking'
-  default_bundle: bankstatement
+  plugin: 'entity:user'
 migration_dependencies: null
