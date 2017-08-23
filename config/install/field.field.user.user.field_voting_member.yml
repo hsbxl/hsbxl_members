@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_voting_member
+  module:
+    - user
+id: user.user.field_voting_member
+field_name: field_voting_member
+entity_type: user
+bundle: user
+label: 'Voting member'
+description: 'Is this member a voting member? This means this member will be listed on the legal members list which we need to give when asked for by officials.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

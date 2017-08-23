@@ -1,0 +1,15 @@
+name: 'HSBXL members'
+type: module
+core: 8.x
+dependencies:
+  - block
+  - field
+  - field_permissions
+  - migrate_plus
+  - path
+  - system
+  - telephone
+  - user
+  - views
+description: 'Everything needed for HSBXL member management.'
+version: 8.x-1.0-alpha1

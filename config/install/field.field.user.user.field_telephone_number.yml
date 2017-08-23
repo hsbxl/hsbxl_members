@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_telephone_number
+  module:
+    - telephone
+    - user
+id: user.user.field_telephone_number
+field_name: field_telephone_number
+entity_type: user
+bundle: user
+label: 'Telephone number'
+description: 'Only viewable to you and administrators.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: telephone

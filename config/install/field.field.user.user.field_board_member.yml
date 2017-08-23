@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_board_member
+  module:
+    - user
+id: user.user.field_board_member
+field_name: field_board_member
+entity_type: user
+bundle: user
+label: 'Board member'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

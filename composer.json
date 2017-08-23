@@ -1,0 +1,14 @@
+{
+  "name": "hsbxl/hsbxl_members",
+  "type": "drupal-custom-module",
+  "description": "Everything needed for HSBXL member management",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/hsbxl/hsbxl_members",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://github.com/hsbxl/hsbxl_members/issues",
+    "source": "https://github.com/hsbxl/hsbxl_members"
+  },
+  "require": { }
+}
