@@ -22,19 +22,20 @@ source:
     1:
       date: 'Entry date'
     2:
-      memo: 'Structured memo'
-    4:
       first_name: 'First name'
-    5:
+    3:
       last_name: 'Last name'
+    4:
+      username: 'Username'
+    5:
+      telephone: 'Telephone'
     6:
-      username: Username
+      email: 'Email'
     7:
-      telephone: Telephone
-    8:
-      email: Email
-    14:
       reason: 'Membership reason'
+    8:
+      memo: 'Structured memo'
+
 process:
   name:
     -
