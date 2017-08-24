@@ -5,7 +5,6 @@ dependencies:
     - field.field.user.user.field_board_member
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
-    - field.field.user.user.field_membership_reason
     - field.field.user.user.field_space_coins
     - field.field.user.user.field_structured_memo
     - field.field.user.user.field_telephone_number
@@ -13,155 +12,30 @@ dependencies:
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - field_group
     - image
-    - text
     - user
-third_party_settings:
-  field_group:
-    group_tabs:
-      children:
-        - group_personal
-        - group_financial
-        - group_extra
-      parent_name: ''
-      weight: 20
-      format_type: tabs
-      format_settings:
-        id: ''
-        classes: ''
-        direction: vertical
-      label: tabs
-    group_personal:
-      children:
-        - user_picture
-        - field_first_name
-        - field_last_name
-        - field_telephone_number
-        - field_board_member
-        - field_voting_member
-        - field_membership_reason
-        - member_for
-      parent_name: group_tabs
-      weight: 20
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-      label: Personal
-    group_financial:
-      children:
-        - field_space_coins
-        - field_structured_memo
-      parent_name: group_tabs
-      weight: 22
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-      label: Financial
-    group_extra:
-      children: {  }
-      parent_name: group_tabs
-      weight: 23
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-      label: Extra
 id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_board_member:
-    type: boolean
-    weight: 7
-    region: content
-    label: inline
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-  field_first_name:
-    type: string
-    weight: 4
-    region: content
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  field_last_name:
-    type: string
+  member_for:
     weight: 5
     region: content
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  field_membership_reason:
-    type: text_default
-    weight: 9
-    region: content
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-  field_space_coins:
-    type: number_decimal
-    weight: 0
-    region: content
-    label: inline
-    settings:
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-  field_structured_memo:
-    type: string
-    weight: 1
-    region: content
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  field_telephone_number:
-    type: string
-    weight: 6
-    region: content
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  field_voting_member:
-    type: boolean
-    weight: 8
-    region: content
-    label: inline
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-  member_for:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   user_picture:
     type: image
-    weight: 3
+    weight: 0
     region: content
     settings:
       image_style: thumbnail
       image_link: content
     third_party_settings: {  }
     label: hidden
-hidden: {  }
+hidden:
+  field_board_member: true
+  field_first_name: true
+  field_last_name: true
+  field_space_coins: true
+  field_structured_memo: true
+  field_telephone_number: true
+  field_voting_member: true

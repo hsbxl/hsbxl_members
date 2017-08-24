@@ -5,7 +5,6 @@ dependencies:
     - field.field.user.user.field_board_member
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
-    - field.field.user.user.field_membership_reason
     - field.field.user.user.field_space_coins
     - field.field.user.user.field_structured_memo
     - field.field.user.user.field_telephone_number
@@ -13,157 +12,23 @@ dependencies:
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - field_group
     - image
     - path
-    - telephone
-    - text
     - user
-third_party_settings:
-  field_group:
-    group_tabs:
-      children:
-        - group_personal
-        - group_financial
-        - group_extra
-      parent_name: ''
-      weight: 5
-      format_type: tabs
-      format_settings:
-        id: ''
-        classes: ''
-        direction: vertical
-      label: tabs
-    group_personal:
-      children:
-        - account
-        - field_first_name
-        - field_last_name
-        - field_telephone_number
-        - field_board_member
-        - field_voting_member
-        - field_membership_reason
-        - user_picture
-      parent_name: group_tabs
-      weight: 14
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: Personal
-    group_financial:
-      children:
-        - field_space_coins
-        - field_structured_memo
-      parent_name: group_tabs
-      weight: 15
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: Financial
-    group_extra:
-      children:
-        - language
-        - contact
-        - timezone
-        - path
-      parent_name: group_tabs
-      weight: 16
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: Extra
 id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
 content:
   account:
-    weight: -8
+    weight: -10
     region: content
-    settings: {  }
-    third_party_settings: {  }
   contact:
     weight: 5
     region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_board_member:
-    type: boolean_checkbox
-    weight: -4
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
-  field_first_name:
-    type: string_textfield
-    weight: -7
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_last_name:
-    type: string_textfield
-    weight: -6
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_membership_reason:
-    type: text_textarea
-    weight: -2
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_space_coins:
-    type: number
-    weight: 0
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_structured_memo:
-    type: string_textfield
-    weight: 1
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_telephone_number:
-    type: telephone_default
-    weight: -5
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_voting_member:
-    type: boolean_checkbox
-    weight: -3
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
   language:
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
   path:
     type: path
     weight: 30
@@ -173,8 +38,6 @@ content:
   timezone:
     weight: 6
     region: content
-    settings: {  }
-    third_party_settings: {  }
   user_picture:
     type: image_image
     settings:
@@ -183,4 +46,11 @@ content:
     third_party_settings: {  }
     weight: -1
     region: content
-hidden: {  }
+hidden:
+  field_board_member: true
+  field_first_name: true
+  field_last_name: true
+  field_space_coins: true
+  field_structured_memo: true
+  field_telephone_number: true
+  field_voting_member: true

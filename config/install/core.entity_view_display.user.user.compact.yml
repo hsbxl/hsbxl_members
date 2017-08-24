@@ -6,7 +6,6 @@ dependencies:
     - field.field.user.user.field_board_member
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
-    - field.field.user.user.field_membership_reason
     - field.field.user.user.field_space_coins
     - field.field.user.user.field_structured_memo
     - field.field.user.user.field_telephone_number
@@ -34,7 +33,6 @@ hidden:
   field_board_member: true
   field_first_name: true
   field_last_name: true
-  field_membership_reason: true
   field_space_coins: true
   field_structured_memo: true
   field_telephone_number: true
