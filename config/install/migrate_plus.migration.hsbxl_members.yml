@@ -17,25 +17,22 @@ source:
   keys:
     - id
   column_names:
-    0:
+    -
       id: 'CSV ID'
-    1:
+    -
       date: 'Entry date'
-    2:
+    -
       first_name: 'First name'
-    3:
+    -
       last_name: 'Last name'
-    4:
-      username: 'Username'
-    5:
-      telephone: 'Telephone'
-    6:
-      email: 'Email'
-    7:
-      reason: 'Membership reason'
-    8:
+    -
+      username: Username
+    -
+      telephone: Telephone
+    -
+      email: Email
+    -
       memo: 'Structured memo'
-
 process:
   name:
     -
@@ -55,7 +52,6 @@ process:
   field_last_name: last_name
   field_telephone_number: telephone
   field_structured_memo: memo
-  field_membership_reason: reason
 destination:
   plugin: 'entity:user'
 migration_dependencies: null
