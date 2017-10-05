@@ -22,17 +22,31 @@ source:
     -
       date: 'Entry date'
     -
+      memo: 'Structured memo'
+    -
+      lang: 'Language'
+    -
       first_name: 'First name'
     -
       last_name: 'Last name'
     -
-      username: Username
+      username: 'Username'
     -
-      telephone: Telephone
+      telephone: 'Telephone'
     -
-      email: Email
+      email: 'Email'
     -
-      memo: 'Structured memo'
+      passwordhash: 'Password Hash'
+    -
+      birthdate: 'Birthdate'
+    -
+      pgp: 'PGP'
+    -
+      ssh: 'SSH'
+    -
+      machinestate: 'Machinestate'
+    -
+      reason: 'Membership reason'
 process:
   name:
     -
