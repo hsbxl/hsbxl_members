@@ -1,0 +1,5 @@
+services:
+  hsbxl_members.membership:
+    class: Drupal\hsbxl_members\MembershipService
+    arguments: []
+
