@@ -10,7 +10,7 @@ migration_group: null
 label: 'Import HSBXL members'
 source:
   plugin: csv
-  path: /home/vagrant/members.csv
+  path: /var/www/drupalvm/csv/members.csv
   delimiter: ','
   enclosure: '"'
   header_row_count: 1
