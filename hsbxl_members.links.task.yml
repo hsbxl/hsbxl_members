@@ -1,0 +1,22 @@
+# Membership routing definition
+membership.settings_tab:
+  route_name: membership.settings
+  title: 'Settings'
+  base_route: membership.settings
+
+entity.membership.canonical:
+  route_name: entity.membership.canonical
+  base_route: entity.membership.canonical
+  title: 'View'
+
+entity.membership.edit_form:
+  route_name: entity.membership.edit_form
+  base_route: entity.membership.canonical
+  title: 'Edit'
+
+entity.membership.delete_form:
+  route_name:  entity.membership.delete_form
+  base_route:  entity.membership.canonical
+  title: Delete
+  weight: 10
+

@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_membership_payment_regime
+    - taxonomy.vocabulary.membership_types
+  module:
+    - hsbxl_members
+id: membership.membership.field_membership_payment_regime
+field_name: field_membership_payment_regime
+entity_type: membership
+bundle: membership
+label: 'Membership payment regime'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      membership_types: membership_types
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

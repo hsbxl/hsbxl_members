@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_year
+  module:
+    - hsbxl_members
+id: membership.membership.field_year
+field_name: field_year
+entity_type: membership
+bundle: membership
+label: Year
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

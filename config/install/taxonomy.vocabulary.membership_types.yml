@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Membership types'
+vid: membership_types
+description: 'Membership rate regimes'
+hierarchy: 0
+weight: 0

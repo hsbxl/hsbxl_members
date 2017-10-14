@@ -7,11 +7,14 @@ dependencies:
   - field_group
   - field_permissions
   - file
+  - hsbxl_members
   - image
   - migrate_plus
+  - options
   - path
   - pathauto
   - system
+  - taxonomy
   - telephone
   - text
   - user

@@ -24,27 +24,27 @@ source:
     -
       memo: 'Structured memo'
     -
-      lang: 'Language'
+      lang: Language
     -
       first_name: 'First name'
     -
       last_name: 'Last name'
     -
-      username: 'Username'
+      username: Username
     -
-      telephone: 'Telephone'
+      telephone: Telephone
     -
-      email: 'Email'
+      email: Email
     -
       passwordhash: 'Password Hash'
     -
-      birthdate: 'Birthdate'
+      birthdate: Birthdate
     -
-      pgp: 'PGP'
+      pgp: PGP
     -
-      ssh: 'SSH'
+      ssh: SSH
     -
-      machinestate: 'Machinestate'
+      machinestate: Machinestate
     -
       reason: 'Membership reason'
 process:

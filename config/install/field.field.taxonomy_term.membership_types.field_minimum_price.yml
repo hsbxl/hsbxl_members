@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_minimum_price
+    - taxonomy.vocabulary.membership_types
+id: taxonomy_term.membership_types.field_minimum_price
+field_name: field_minimum_price
+entity_type: taxonomy_term
+bundle: membership_types
+label: 'Minimum price'
+description: 'What is the minimum amount for this membership type?'
+required: true
+translatable: false
+default_value:
+  -
+    value: !!float 0
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: €
+  suffix: ''
+field_type: decimal

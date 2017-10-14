@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_month
+  module:
+    - hsbxl_members
+    - options
+id: membership.membership.field_month
+field_name: field_month
+entity_type: membership
+bundle: membership
+label: Month
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer
