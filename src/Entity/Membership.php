@@ -44,11 +44,11 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/membership/membership/{membership}",
- *     "add-form" = "/membership/membership/add",
- *     "edit-form" = "/membership/membership/{membership}/edit",
- *     "delete-form" = "/membership/membership/{membership}/delete",
- *     "collection" = "/membership/membership",
+ *     "canonical" = "/membership/{membership}",
+ *     "add-form" = "/membership/add",
+ *     "edit-form" = "/membership/{membership}/edit",
+ *     "delete-form" = "/membership/{membership}/delete",
+ *     "collection" = "/membership",
  *   },
  *   field_ui_base_route = "membership.settings"
  * )
