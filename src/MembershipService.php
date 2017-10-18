@@ -76,12 +76,17 @@ class MembershipService {
 
   public function getMembershipRegimes() {
     $membership_regimes = [];
-    $now = new DrupalDateTime('now');
+
+    if($this->year > 0 || $this->month > 0) {
+      $date = new DrupalDateTime($this->year . '-' . $this->month . -'1');
+    } else {
+      $date = new DrupalDateTime('now');
+    }
 
     $query = $this->entity_query->get('taxonomy_term');
     $query->condition('vid', 'membership_types');
-    $query->condition('field_start_date', $now->format(DATETIME_DATETIME_STORAGE_FORMAT), '<=');
-    $query->condition('field_end_date', $now->format(DATETIME_DATETIME_STORAGE_FORMAT), '>=');
+    $query->condition('field_start_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '<=');
+    $query->condition('field_end_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '>=');
     $query->sort('field_minimum_price' , 'DESC');
 
     $memberships_regimes_storage = $this
@@ -91,6 +96,7 @@ class MembershipService {
     foreach ($query->execute() as $tid) {
       $membership_regime = $memberships_regimes_storage->load($tid);
       $membership_regimes[] = array(
+        'name' => $membership_regime->get('name')->value,
         'minimum_price' => $membership_regime->get('field_minimum_price')->value,
         'start_date' => $membership_regime->get('field_start_date')->value,
         'end_date' => $membership_regime->get('field_end_date')->value,
