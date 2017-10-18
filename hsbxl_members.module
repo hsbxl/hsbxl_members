@@ -35,6 +35,7 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
         $last_name = $client->get('field_last_name')->getValue()[0]['value'];
 
         $membershipdata = [
+          'field_membership_member' => $client,
           'type' => 'membership',
           'name' => 'membership ' . $first_name . ' ' . $last_name,
           'field_booking' => $entity->id(),

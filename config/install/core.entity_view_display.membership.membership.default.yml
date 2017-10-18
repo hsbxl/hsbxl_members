@@ -3,44 +3,52 @@ status: true
 dependencies:
   config:
     - field.field.membership.membership.field_booking
+    - field.field.membership.membership.field_membership_member
     - field.field.membership.membership.field_membership_payment_regime
     - field.field.membership.membership.field_month
     - field.field.membership.membership.field_year
   module:
     - hsbxl_members
     - options
-    - user
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
 mode: default
 content:
   field_booking:
-    weight: 6
-    label: above
+    weight: 5
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_membership_member:
+    weight: 0
+    label: inline
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_membership_payment_regime:
-    weight: 2
-    label: above
+    weight: 4
+    label: inline
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_month:
-    weight: 4
-    label: above
+    weight: 3
+    label: inline
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   field_year:
-    weight: 5
-    label: above
+    weight: 2
+    label: inline
     settings:
       thousand_separator: ''
       prefix_suffix: true
@@ -48,18 +56,12 @@ content:
     type: number_integer
     region: content
   name:
-    label: above
+    label: inline
     type: string
-    weight: -4
+    weight: 1
     region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  user_id:
-    label: hidden
-    type: author
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  user_id: true

@@ -1,0 +1,8 @@
+
+hsbxl_members.test:
+  path: '/test'
+  defaults:
+    _controller: '\Drupal\hsbxl_members\Controller\Test::test'
+    _title: 'test'
+  requirements:
+    _permission: 'access content'

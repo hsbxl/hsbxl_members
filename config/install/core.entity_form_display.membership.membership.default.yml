@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.membership.membership.field_booking
+    - field.field.membership.membership.field_membership_member
     - field.field.membership.membership.field_membership_payment_regime
     - field.field.membership.membership.field_month
     - field.field.membership.membership.field_year
@@ -14,7 +15,16 @@ bundle: membership
 mode: default
 content:
   field_booking:
-    weight: 3
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_membership_member:
+    weight: 0
     settings:
       match_operator: CONTAINS
       size: 60
@@ -23,19 +33,19 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_membership_payment_regime:
-    weight: 0
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_month:
     weight: 1
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  field_year:
+  field_month:
     weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_year:
+    weight: 3
     settings:
       placeholder: ''
     third_party_settings: {  }

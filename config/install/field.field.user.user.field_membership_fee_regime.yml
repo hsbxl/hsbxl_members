@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_membership_fee_regime
+    - taxonomy.vocabulary.membership_types
+  module:
+    - user
+id: user.user.field_membership_fee_regime
+field_name: field_membership_fee_regime
+entity_type: user
+bundle: user
+label: 'Membership fee regime'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      membership_types: membership_types
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
