@@ -28,11 +28,11 @@ class Test extends ControllerBase {
     $membershipService->setYear('2017');
     $membershipService->setMonth('10');
 
-    kint($this->membership->getMemberships());
+    kint($this->membership->getMembershipRegimes());
 
     return [
       '#type' => 'markup',
-      '#markup' => $this->membership->getMemberships(),
+      '#markup' => $this->membership->getMembershipRegimes(),
     ];
   }
 }

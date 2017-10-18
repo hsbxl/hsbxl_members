@@ -4,6 +4,7 @@ namespace Drupal\hsbxl_members;
 
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Datetime\DrupalDateTime;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -75,8 +76,28 @@ class MembershipService {
 
   public function getMembershipRegimes() {
     $membership_regimes = [];
-    $query = $this->entity_query->get('taxonomy_term');
+    $now = new DrupalDateTime('now');
 
+    $query = $this->entity_query->get('taxonomy_term');
+    $query->condition('vid', 'membership_types');
+    $query->condition('field_start_date', $now->format(DATETIME_DATETIME_STORAGE_FORMAT), '<=');
+    $query->condition('field_end_date', $now->format(DATETIME_DATETIME_STORAGE_FORMAT), '>=');
+    $query->sort('field_minimum_price' , 'DESC');
+
+    $memberships_regimes_storage = $this
+      ->entityManager
+      ->getStorage('taxonomy_term');
+
+    foreach ($query->execute() as $tid) {
+      $membership_regime = $memberships_regimes_storage->load($tid);
+      $membership_regimes[] = array(
+        'minimum_price' => $membership_regime->get('field_minimum_price')->value,
+        'start_date' => $membership_regime->get('field_start_date')->value,
+        'end_date' => $membership_regime->get('field_end_date')->value,
+      );
+    }
+
+    return $membership_regimes;
   }
 }
 
