@@ -1,6 +1,7 @@
 <?php
 
-use \Drupal\hsbxl_members\Entity\Membership;
+use Drupal\hsbxl_members\Entity\Membership;
+use Drupal\hsbxl_members\MembershipService;
 
 /**
  * Implements hook_entity_insert().

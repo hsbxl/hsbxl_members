@@ -2,6 +2,7 @@
 
 namespace Drupal\hsbxl_members\Controller;
 
+use Drupal\User\Entity\User;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\hsbxl_members\MembershipService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,11 +25,14 @@ class Test extends ControllerBase {
 
   public function test() {
 
+    $user = \Drupal\user\Entity\User::load(95);
+
     $membershipService = $this->membership;
     $membershipService->setYear('2017');
     $membershipService->setMonth('10');
+    $membershipService->setHsbxlMember($user);
 
-    kint($this->membership->getMembershipRegimes());
+    kint($this->membership->getFirstMembership());
 
     return [
       '#type' => 'markup',
