@@ -2,9 +2,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.membership_types.field_end_date
     - field.field.taxonomy_term.membership_types.field_minimum_price
+    - field.field.taxonomy_term.membership_types.field_start_date
     - taxonomy.vocabulary.membership_types
   module:
+    - datetime
     - path
     - text
 id: taxonomy_term.membership_types.default
@@ -20,12 +23,24 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_end_date:
+    weight: 33
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_minimum_price:
     weight: 31
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_start_date:
+    weight: 32
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
     region: content
   name:
     type: string_textfield

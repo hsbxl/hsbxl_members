@@ -72,4 +72,21 @@ class MembershipService {
     sort($mids);
     return $mids;
   }
+
+  public function getMembershipRegimes() {
+    $membership_regimes = [];
+    $query = $this->entity_query->get('taxonomy_term');
+
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
