@@ -92,6 +92,24 @@ class MembershipService {
     return [];
   }
 
+  public function getLastMembership() {
+    $query = $this->entity_query->get('membership');
+    $query->condition('field_membership_member', $this->hsbxl_member->id());
+    $query->condition('status', 1);
+    $query->sort('field_year' , 'DESC');
+    $query->sort('field_month' , 'DESC');
+
+    $memberships_storage = $this
+      ->entityManager
+      ->getStorage('membership');
+
+    foreach ($query->execute() as $mid) {
+      return $memberships_storage->load(current($query->execute()));
+    }
+
+    return [];
+  }
+
   public function getMembershipRegimes() {
     $membership_regimes = [];
 
