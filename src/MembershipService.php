@@ -96,6 +96,7 @@ class MembershipService {
     foreach ($query->execute() as $tid) {
       $membership_regime = $memberships_regimes_storage->load($tid);
       $membership_regimes[] = array(
+        'id' => $membership_regime->get('tid')->value,
         'name' => $membership_regime->get('name')->value,
         'minimum_price' => $membership_regime->get('field_minimum_price')->value,
         'start_date' => $membership_regime->get('field_start_date')->value,
