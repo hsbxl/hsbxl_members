@@ -2,6 +2,7 @@
 
 use Drupal\hsbxl_members\Entity\Membership;
 use Drupal\hsbxl_members\MembershipService;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
  * Implements hook_entity_insert().
@@ -10,6 +11,8 @@ use Drupal\hsbxl_members\MembershipService;
  */
 function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
   $config = \Drupal::config('hsbxl_members.settings');
+  $membershipService = \Drupal::service('hsbxl_members.membership');
+
 
   // If the bundle is a bankstatement,
   // check if it was a membership payment.
@@ -17,6 +20,7 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
 
     $amount = $entity->get('field_booking_amount')->getValue()[0]['value'];
     $memo = $entity->get('field_bankstatement_memo')->getValue()[0]['value'];
+    $date = new DrupalDateTime($entity->get('field_bankstatement_date')->getValue()[0]['value']);
 
 
     if($amount > 0) {
@@ -40,8 +44,8 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
           'type' => 'membership',
           'name' => 'membership ' . $first_name . ' ' . $last_name,
           'field_booking' => $entity->id(),
-          'field_year' => 2017,
-          'field_month' => 10,
+          'field_year' => $date->format('Y'),
+          'field_month' => $date->format('m'),
           'user_id' => current($entity_ids)
         ];
 
