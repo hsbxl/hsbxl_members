@@ -128,12 +128,11 @@ class MembershipService {
   public function getNextMembership() {
     $last_membership = $this->getLastMembership();
 
-    // No last membership found, return now.
+    // No last membership found, return date set.
     if(!$last_membership) {
-      $date = new DrupalDateTime('now');
       return [
-        'year' => $date->format('Y'),
-        'month' => $date->format('m'),
+        'year' => $this->year,
+        'month' => $this->month,
       ];
     }
 
