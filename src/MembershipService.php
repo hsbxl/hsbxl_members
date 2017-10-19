@@ -43,6 +43,7 @@ class MembershipService {
 
   public function setStructuredMemo($structured_memo) {
     $this->structured_memo = $structured_memo;
+    $this->setHsbxlMember($this->getMemoMember($structured_memo));
   }
 
 
@@ -146,32 +147,35 @@ class MembershipService {
   public function processMembershipFee($amount) {
     $i = 0;
 
-    // create a membership, deduct the regime price of the amount. Repeat.
-    while($amount > 0) {
-      $next_membership = $this->getNextMembership();
-      $regime = $this->detectMembershipRegime($amount);
-      $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
-      $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
-      if(!$regime) {
-        break;
+    // Only go further if we have a hsbxl_member.
+    if(is_object($this->hsbxl_member)) {
+      // create a membership, deduct the regime price of the amount. Repeat.
+      while($amount > 0) {
+        $next_membership = $this->getNextMembership();
+        $regime = $this->detectMembershipRegime($amount);
+        $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
+        $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
+        if(!$regime) {
+          break;
+        }
+
+        $membershipdata = [
+          'field_membership_member' => $this->hsbxl_member,
+          'type' => 'membership',
+          'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
+          //'field_booking' => $entity->id(),
+          'field_year' => $next_membership['year'],
+          'field_month' => $next_membership['month'],
+          'field_membership_payment_regime_id' => $regime['id'],
+          'field_membership_payment_regime_name' => $regime['name'],
+        ];
+
+        $membership = Membership::create($membershipdata);
+        $membership->save();
+        $i++;
+
+        $amount = $amount - $regime['minimum_price'];
       }
-
-      $membershipdata = [
-        'field_membership_member' => $this->hsbxl_member,
-        'type' => 'membership',
-        'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
-        //'field_booking' => $entity->id(),
-        'field_year' => $next_membership['year'],
-        'field_month' => $next_membership['month'],
-        'field_membership_payment_regime_id' => $regime['id'],
-        'field_membership_payment_regime_name' => $regime['name'],
-      ];
-
-      $membership = Membership::create($membershipdata);
-      $membership->save();
-      $i++;
-
-      $amount = $amount - $regime['minimum_price'];
     }
 
     // Return the amount of membership months generated.

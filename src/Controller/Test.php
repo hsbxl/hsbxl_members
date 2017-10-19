@@ -25,12 +25,12 @@ class Test extends ControllerBase {
 
   public function test() {
 
-    $user = \Drupal\user\Entity\User::load(64);
+    //$user = \Drupal\user\Entity\User::load(64);
 
     $membershipService = $this->membership;
-    $membershipService->setYear('2017');
-    $membershipService->setMonth('10');
-    $membershipService->setHsbxlMember($user);
+    //$membershipService->setYear('2017');
+    //$membershipService->setMonth('10');
+    //$membershipService->setHsbxlMember($user);
     $membershipService->setStructuredMemo('+++026/8042/07030+++');
 
     kint($this->membership->getLastMembership());
