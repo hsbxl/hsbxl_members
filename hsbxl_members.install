@@ -1,0 +1,50 @@
+<?php
+
+
+/**
+ * Implements hook_install().
+ */
+function hsbxl_members_install() {
+  $membershipFees = [
+    [
+      'start_date'    => '2009-08-06',
+      'end_date'      => '2013-05-31',
+      'name'          => '2009 - 2013: Normal tariff: 10',
+      'minimum_price' => 10,
+    ],
+    [
+      'start_date'    => '2013-06-01',
+      'end_date'      => '2015-01-26',
+      'name'          => '2013 - 2015: Normal tariff: 15',
+      'minimum_price' => 15,
+    ],
+    [
+      'start_date'    => '2013-06-01',
+      'end_date'      => '2015-01-26',
+      'name'          => '2013 - 2015: Social tariff: 10',
+      'minimum_price' => 10,
+    ],
+    [
+      'start_date'    => '2015-01-27',
+      'end_date'      => '2042-01-01', // No end yet...
+      'name'          => '2015 - ∞: Normal tariff: 25',
+      'minimum_price' => 25,
+    ],
+    [
+      'start_date'    => '2015-01-27',
+      'end_date'      => '2042-01-01', // No end yet...
+      'name'          => '2015 - ∞: Social tariff: 15',
+      'minimum_price' => 15,
+    ],
+  ];
+
+  foreach ($membershipFees as $membershipFee) {
+    \Drupal\taxonomy\Entity\Term::create([
+      'name' => $membershipFee['name'],
+      'vid' => 'membership_types',
+      'field_start_date' => $membershipFee['start_date'],
+      'field_end_date' => $membershipFee['end_date'],
+      'field_minimum_price' => $membershipFee['minimum_price'],
+    ])->save();
+  }
+}
