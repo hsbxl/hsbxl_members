@@ -15,7 +15,7 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
 
   // If the bundle is a bankstatement,
   // check if it was a membership payment.
-  if ($entity->bundle() == 'bankstatement') {
+  if ($entity->bundle() == '') {
 
     $amount = $entity->get('field_booking_amount')->getValue()[0]['value'];
     $memo = $entity->get('field_bankstatement_memo')->getValue()[0]['value'];
@@ -29,4 +29,11 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
       $membershipService->processMembershipFee($amount);
     }
   }
+}
+
+/**
+ * Cronjob callback.
+ */
+function hsbxl_members_cronjob_queuemembership() {
+
 }

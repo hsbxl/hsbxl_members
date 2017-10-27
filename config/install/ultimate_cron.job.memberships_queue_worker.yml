@@ -1,0 +1,17 @@
+langcode: en
+status: false
+dependencies:
+  module:
+    - hsbxl_members
+    - simplified_bookkeeping
+title: 'Add to queue: membership calculation'
+id: sales_queue_worker
+weight: 0
+module: hsbxl_members
+callback: hsbxl_members_cronjob_queuemembership
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
