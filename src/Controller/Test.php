@@ -30,13 +30,22 @@ class Test extends ControllerBase {
 
     //$user = \Drupal\user\Entity\User::load(64);
 
-    $membershipService = $this->membership;
-    //$bookkeepingService = $this->bookkeeping;
+    $bookkeeping = $this->bookkeeping;
+    $bookkeeping->setStatement(3786);
+    $statements = $bookkeeping->getStatements();
+    kint($statements);
+
+
+    //$this->membership->setStatement(3786);
+    //$statement = $this->membership->getStatement();
+    //$memberships = $this->membership->getMemberships();
+    //kint($statement);
+    //kint($memberships);
 
     //$membershipService->setYear('2017');
     //$membershipService->setMonth('10');
     //$membershipService->setHsbxlMember($user);
-    $membershipService->setStructuredMemo('+++026/8042/07030+++');
+    //$membershipService->setStructuredMemo('+++026/8042/07030+++');
 
     //kint($this->membership->getLastMembership());
     //kint($this->membership->getNextMembership());
@@ -44,7 +53,7 @@ class Test extends ControllerBase {
     //kint($this->membership->detectMembershipRegime(24));
     //kint($this->membership->processMembershipFee(117));
 
-    kint($this->bookkeeping->genSales());
+    //kint($this->bookkeeping->genSales());
 
     return [
       '#type' => 'markup',

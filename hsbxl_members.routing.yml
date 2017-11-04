@@ -6,3 +6,11 @@ hsbxl_members.test:
     _title: 'test'
   requirements:
     _permission: 'access content'
+
+hsbxl_members.membership_months:
+  path: '/user/{user}/membership_months'
+  defaults:
+    _controller: '\Drupal\hsbxl_members\Controller\MembershipMonths::table'
+    _title: 'Membership Months'
+  requirements:
+      _permission: 'access content'

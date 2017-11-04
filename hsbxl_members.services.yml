@@ -1,5 +1,5 @@
 services:
   hsbxl_members.membership:
     class: Drupal\hsbxl_members\MembershipService
-    arguments: ['@entity.query', '@entity.manager']
+    arguments: ['@entity.query', '@entity.manager', '@simplified_bookkeeping.bookkeeping']
 

@@ -5,8 +5,9 @@ namespace Drupal\hsbxl_members;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\hsbxl_members\Entity\Membership;
+use Drupal\simplified_bookkeeping\BookkeepingService;
+use Drupal\simplified_bookkeeping\Entity\BookingEntity;
 
 /**
  * Class MembershipService.
@@ -18,10 +19,12 @@ class MembershipService {
   protected $hsbxl_member;
   protected $structured_memo;
   protected $entity_query;
+  protected $statement;
 
-  public function __construct(QueryFactory $entity_query, EntityManagerInterface $entityManager) {
+  public function __construct(QueryFactory $entity_query, EntityManagerInterface $entityManager, BookkeepingService $bookkeeping) {
     $this->entity_query = $entity_query;
     $this->entityManager = $entityManager;
+    $this->bookkeeping = $bookkeeping;
   }
 
 
@@ -41,6 +44,10 @@ class MembershipService {
     $this->hsbxl_member = $hsbxl_member;
   }
 
+  public function getHsbxlMember() {
+    return $this->hsbxl_member;
+  }
+
   public function setStructuredMemo($structured_memo) {
     $this->structured_memo = $structured_memo;
     $this->setHsbxlMember($this->getMemoMember($structured_memo));
@@ -48,7 +55,33 @@ class MembershipService {
 
 
 
+
+  public function setStatement($statement) {
+    $this->hsbxl_member = NULL;
+
+    if(is_object($statement)) {
+      $this->statement = $statement;
+    }
+    if(is_int($statement)) {
+      $statement = $this->statement = \Drupal::entityTypeManager()
+        ->getStorage('booking')
+        ->load($statement);
+    }
+
+    // we set the structured memo, which will also set the hsbxl_member.
+    $this->setStructuredMemo($statement->field_bankstatement_memo->value);
+  }
+
+  public function getStatement() {
+    return $this->statement;
+  }
+
+
+
+
+
   public function getMemberships() {
+    $member = $this->hsbxl_member;
     $memberships = [];
     $query = $this->entity_query->get('membership');
 
@@ -143,6 +176,19 @@ class MembershipService {
     ];
   }
 
+  public function getMembershipTag() {
+    // check if we have a membership tag.
+    $tag = current(taxonomy_term_load_multiple_by_name('membership', 'bookkeeping_tags'));
+    if(!$tag) {
+      $tag = Term::create(array(
+        'parent' => array(),
+        'name' => 'membership',
+        'vid' => 'bookkeeping_tags',
+      ))->save();
+    }
+    return $tag;
+  }
+
   public function processMembershipFee($amount) {
     $i = 0;
 
@@ -158,15 +204,36 @@ class MembershipService {
           break;
         }
 
+        $sale_data = [
+          'type' => 'sale',
+          'name' => 'Membership ' . $next_membership['month'] . '-' . $next_membership['year'],
+          'field_booking_amount' => $regime['minimum_price'],
+          'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
+          'field_booking' => $this->getStatement(),
+          'field_booking_tags' => $this->getMembershipTag(),
+          'uid' => 1
+        ];
+
+        $sale = BookingEntity::create($sale_data);
+        $sale->save();
+
+        $statement = BookingEntity::load($this->statement->id());
+        $statement->field_booking[] = $sale;
+        $statement->save();
+
+        //$statement = clone $this->statement;
+        //$statement->field_booking = $sale;
+       // $statement>setNewRevision(FALSE);
+        //$statement->save();
+
         $membershipdata = [
           'field_membership_member' => $this->hsbxl_member,
           'type' => 'membership',
           'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
-          //'field_booking' => $entity->id(),
+          'field_booking' => $sale,
           'field_year' => $next_membership['year'],
           'field_month' => $next_membership['month'],
-          'field_membership_payment_regime_id' => $regime['id'],
-          'field_membership_payment_regime_name' => $regime['name'],
+          'field_membership_payment_regime' => $regime,
         ];
 
         $membership = Membership::create($membershipdata);

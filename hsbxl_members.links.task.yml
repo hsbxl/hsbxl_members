@@ -4,6 +4,13 @@ membership.settings_tab:
   title: 'Settings'
   base_route: membership.settings
 
+hsbxl_members.membership_months:
+  route_name: hsbxl_members.membership_months
+  base_route: entity.user.canonical
+  title: 'Membership months'
+
+
+
 entity.membership.canonical:
   route_name: entity.membership.canonical
   base_route: entity.membership.canonical
@@ -19,4 +26,3 @@ entity.membership.delete_form:
   base_route:  entity.membership.canonical
   title: Delete
   weight: 10
-
