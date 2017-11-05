@@ -5,6 +5,7 @@ namespace Drupal\hsbxl_members;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\hsbxl_members\Entity\Membership;
 use Drupal\simplified_bookkeeping\BookkeepingService;
 use Drupal\simplified_bookkeeping\Entity\BookingEntity;
@@ -204,18 +205,27 @@ class MembershipService {
   }
 
   public function processMembershipFee($amount) {
+    $config = \Drupal::config('hsbxl_members.settings');
     $i = 0;
 
     // Only go further if we have a hsbxl_member.
     if(is_object($this->hsbxl_member)) {
+
       // create a membership, deduct the regime price of the amount. Repeat.
       while($amount > 0) {
+
+        if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'donate'
+          && $i > 0) {
+          break 2;
+        }
+
         $next_membership = $this->getNextMembership();
         $regime = $this->detectMembershipRegime($amount);
         $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
         $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
+
         if(!$regime) {
-          break;
+          break 2;
         }
 
         $sale_data = [
@@ -234,11 +244,6 @@ class MembershipService {
         $statement = BookingEntity::load($this->statement->id());
         $statement->field_booking[] = $sale;
         $statement->save();
-
-        //$statement = clone $this->statement;
-        //$statement->field_booking = $sale;
-       // $statement>setNewRevision(FALSE);
-        //$statement->save();
 
         $membershipdata = [
           'field_membership_member' => $this->hsbxl_member,

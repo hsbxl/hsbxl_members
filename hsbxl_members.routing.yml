@@ -14,3 +14,11 @@ hsbxl_members.membership_months:
     _title: 'Membership Months'
   requirements:
       _permission: 'access content'
+
+hsbxl_members.config_form:
+  path: '/admin/config/system/hsbxl_members'
+  defaults:
+    _form: '\Drupal\hsbxl_members\Form\ConfigForm'
+    _title: 'Config HSBXL Members module'
+  requirements:
+    _permission: 'access bookkeeping'
