@@ -206,6 +206,19 @@ class MembershipService {
     return $tag;
   }
 
+  public function getDonationTag() {
+    // check if we have a membership tag.
+    $tag = current(taxonomy_term_load_multiple_by_name('donation', 'bookkeeping_tags'));
+    if(!$tag) {
+      $tag = Term::create(array(
+        'parent' => array(),
+        'name' => 'donation',
+        'vid' => 'bookkeeping_tags',
+      ))->save();
+    }
+    return $tag;
+  }
+
   public function processMembershipFee($amount) {
     $config = \Drupal::config('hsbxl_members.settings');
     $i = 0;
@@ -218,6 +231,24 @@ class MembershipService {
 
         if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'Donate'
           && $i > 0) {
+          $sale_data = [
+            'type' => 'sale',
+            'name' => 'donation',
+            'field_booking_amount' => $amount,
+            'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
+            'field_booking' => $this->statement,
+            'field_booking_tags' => $this->getDonationTag(),
+            'uid' => 1
+          ];
+          $sale = BookingEntity::create($sale_data);
+          $sale->save();
+
+          // Save the statement with the donation sale added.
+          $statement = BookingEntity::load($this->statement->id());
+          $statement->field_booking[] = $sale;
+          $statement->field_completed = TRUE;
+          $statement->save();
+
           break;
         }
 
@@ -227,6 +258,27 @@ class MembershipService {
         $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
 
         if(!$regime) {
+          // we don't have enough for a minimum membership fee,
+          // but we have rest amount, donate it.
+          if($amount > 0) {
+            $sale_data = [
+              'type' => 'sale',
+              'name' => 'donation',
+              'field_booking_amount' => $amount,
+              'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
+              'field_booking' => $this->statement,
+              'field_booking_tags' => $this->getDonationTag(),
+              'uid' => 1
+            ];
+            $sale = BookingEntity::create($sale_data);
+            $sale->save();
+
+            // Save the statement with the donation sale added.
+            $statement = BookingEntity::load($this->statement->id());
+            $statement->field_booking[] = $sale;
+            $statement->field_completed = TRUE;
+            $statement->save();
+          }
           break;
         }
 
@@ -235,7 +287,7 @@ class MembershipService {
           'name' => 'Membership ' . $next_membership['month'] . '-' . $next_membership['year'],
           'field_booking_amount' => $regime['minimum_price'],
           'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
-          'field_booking' => $this->getStatement(),
+          'field_booking' => $this->statement,
           'field_booking_tags' => $this->getMembershipTag(),
           'uid' => 1
         ];
@@ -243,6 +295,7 @@ class MembershipService {
         $sale = BookingEntity::create($sale_data);
         $sale->save();
 
+        // Save the statement with the membership sale added.
         $statement = BookingEntity::load($this->statement->id());
         $statement->field_booking[] = $sale;
         $statement->save();
