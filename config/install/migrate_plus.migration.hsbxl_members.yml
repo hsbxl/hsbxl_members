@@ -66,15 +66,11 @@ process:
   field_last_name: last_name
   field_telephone_number: telephone
   field_structured_memo: memo
-  field_membership_reason: reason
   created:
     plugin: format_date
     from_format: Y-m-d
     to_format: U
     source: date
-  timezone:
-    plugin: default_value
-    default_value: 'Europe/Brussels'
 destination:
   plugin: 'entity:user'
 migration_dependencies: null
