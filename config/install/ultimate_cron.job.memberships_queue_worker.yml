@@ -1,9 +1,8 @@
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - hsbxl_members
-    - simplified_bookkeeping
 title: 'Add to queue: membership calculation'
 id: memberships_queue_worker
 weight: 0

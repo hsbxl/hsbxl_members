@@ -19,6 +19,7 @@ dependencies:
   - taxonomy
   - telephone
   - text
+  - ultimate_cron
   - user
   - views
 description: 'Everything needed for HSBXL member management.'
