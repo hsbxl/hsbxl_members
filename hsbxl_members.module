@@ -18,15 +18,13 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
   if ($entity->bundle() == 'bankstatement') {
 
     $amount = $entity->get('field_booking_amount')->getValue()[0]['value'];
-    $memo = $entity->get('field_bankstatement_memo')->getValue()[0]['value'];
     $date = new DrupalDateTime($entity->get('field_booking_date')->getValue()[0]['value']);
 
     if($amount > 0) {
       $membershipService->setStatement($entity);
       $membershipService->setYear($date->format('Y'));
       $membershipService->setMonth($date->format('m'));
-      //$membershipService->setStructuredMemo($memo);
-      $membershipService->processMembershipFee($amount);
+      //$membershipService->processMembershipFee($amount);
     }
   }
 }
@@ -35,5 +33,6 @@ function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity)
  * Cronjob callback.
  */
 function hsbxl_members_cronjob_queuemembership() {
-
+  $membership = \Drupal::service('hsbxl_members.membership');
+  $membership->queueStatements();
 }

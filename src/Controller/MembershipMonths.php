@@ -44,9 +44,7 @@ class MembershipMonths extends ControllerBase {
 
     // go over and create the table rows.
     foreach($months as $month) {
-      //kint($month);
-      $sale_id = $month->field_booking->target_id;
-      $statement = $this->getStatement($sale_id);
+      $statement = $this->getStatement($month->field_booking->target_id);
       $url = Url::fromRoute('entity.booking.canonical', ['booking' => $statement->id()]);
       $link = \Drupal\Core\Link::fromTextAndUrl('Statement', $url);
 
@@ -57,8 +55,7 @@ class MembershipMonths extends ControllerBase {
         //$payment->get('field_sale_payment_method')->getValue()[0]['value'],
         //'z',//$month->get('field_sale_total_amount')->getValue()[0]['value'] . '€',
       ];
-      //$total = $total + $month->get('field_sale_total_amount')->getValue()[0]['value'];
-      $total = $total + 1;
+      $total = $total + $statement->get('field_booking_amount')->getValue()[0]['value'];
     }
 
     // Check if the total is above zero

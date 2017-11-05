@@ -59,6 +59,8 @@ class MembershipService {
   public function setStatement($statement) {
     $this->hsbxl_member = NULL;
 
+    $a = 0;
+
     if(is_object($statement)) {
       $this->statement = $statement;
     }
@@ -68,8 +70,10 @@ class MembershipService {
         ->load($statement);
     }
 
+    $a = 0;
+
     // we set the structured memo, which will also set the hsbxl_member.
-    $this->setStructuredMemo($statement->field_bankstatement_memo->value);
+    $this->setStructuredMemo($statement->field_booking_structured_memo->value);
   }
 
   public function getStatement() {
@@ -169,7 +173,17 @@ class MembershipService {
       ];
     }
 
-    $date = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1 + 1 month');
+    $lastdate = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1');
+    $maxdate = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1 - 3 months');
+
+    if($lastdate->format('U') > $maxdate->format('U')) {
+      $date = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1 + 1 month');
+    }
+    else{
+      $date = new DrupalDateTime();
+    }
+
+
     return [
       'year' => $date->format('Y'),
       'month' => $date->format('m'),
@@ -307,6 +321,46 @@ class MembershipService {
     }
 
     return FALSE;
+  }
+
+  public function queueStatements() {
+    $query = $this->entity_query->get('booking');
+    $query->condition('status', 1);
+    $query->condition('field_booking_status', "unprocessed");
+    $query->condition('type', ['bankstatement', 'cashstatement'], 'IN');
+    $query->sort('field_booking_date' , 'ASC');
+
+    $queue_factory = \Drupal::service('queue');
+    $queue = $queue_factory->get('statements_queue_processor');
+
+    foreach ($query->execute() as $bid) {
+      // Add to the queue.
+      $queue->createItem($bid);
+
+      // set statement as status 'queued'.
+      $booking = BookingEntity::load($bid);
+      $booking->field_booking_status->value = "queued";
+      $booking->save();
+    }
+
+    return;
+  }
+
+  public function processStatement($statement_id) {
+    $this->setStatement((int)$statement_id);
+    $statement = $this->statement;
+
+    //if ($statement->bundle() == 'bankstatement') {
+
+      $amount = $statement->get('field_booking_amount')->getValue()[0]['value'];
+      $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
+
+      if($amount > 0) {
+        $this->setYear($date->format('Y'));
+        $this->setMonth($date->format('m'));
+        $this->processMembershipFee($amount);
+      }
+    //}
   }
 
 }

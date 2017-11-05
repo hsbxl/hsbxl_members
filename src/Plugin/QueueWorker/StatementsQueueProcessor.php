@@ -12,11 +12,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @QueueWorker(
  *   id = "statements_queue_processor",
- *   title = @Translation("Generate Sales or Purchases from bank/cash statements in the queue"),
+ *   title = @Translation("Generate membership months from statements in the queue"),
  *   cron = {"time" = 10}
  * )
  */
-class MembershipsQueueProcessor extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+class StatementsQueueProcessor extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entityTypeManager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -38,5 +38,11 @@ class MembershipsQueueProcessor extends QueueWorkerBase implements ContainerFact
    */
   public function processItem($sid) {
 
+    /*$booking_storage = $this
+      ->entityTypeManager
+      ->getStorage('booking');*/
+
+    $membership = \Drupal::service('hsbxl_members.membership');
+    $membership->processStatement($sid);
   }
 }
