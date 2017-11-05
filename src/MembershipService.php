@@ -60,8 +60,6 @@ class MembershipService {
   public function setStatement($statement) {
     $this->hsbxl_member = NULL;
 
-    $a = 0;
-
     if(is_object($statement)) {
       $this->statement = $statement;
     }
@@ -71,7 +69,9 @@ class MembershipService {
         ->load($statement);
     }
 
-    $a = 0;
+    $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
+    $this->setYear($date->format('Y'));
+    $this->setMonth($date->format('m'));
 
     // we set the structured memo, which will also set the hsbxl_member.
     $this->setStructuredMemo($statement->field_booking_structured_memo->value);
@@ -177,18 +177,20 @@ class MembershipService {
     $lastdate = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1');
     $maxdate = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1 - 3 months');
 
-    if($lastdate->format('U') > $maxdate->format('U')) {
+    // If the last membership was from longer then 3 months ago, use the statement date.
+    if($lastdate->format('U') < $maxdate->format('U')) {
       $date = new DrupalDateTime($last_membership['year'] . '-' . $last_membership['month'] . '-1 + 1 month');
+      return [
+        'year' => $date->format('Y'),
+        'month' => $date->format('m'),
+      ];
     }
     else{
-      $date = new DrupalDateTime();
+      return [
+        'year' => $this->year,
+        'month' => $this->month,
+      ];
     }
-
-
-    return [
-      'year' => $date->format('Y'),
-      'month' => $date->format('m'),
-    ];
   }
 
   public function getMembershipTag() {
@@ -214,9 +216,9 @@ class MembershipService {
       // create a membership, deduct the regime price of the amount. Repeat.
       while($amount > 0) {
 
-        if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'donate'
+        if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'Donate'
           && $i > 0) {
-          break 2;
+          break;
         }
 
         $next_membership = $this->getNextMembership();
@@ -225,7 +227,7 @@ class MembershipService {
         $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
 
         if(!$regime) {
-          break 2;
+          break;
         }
 
         $sale_data = [
@@ -361,8 +363,8 @@ class MembershipService {
       $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
 
       if($amount > 0) {
-        $this->setYear($date->format('Y'));
-        $this->setMonth($date->format('m'));
+        //$this->setYear($date->format('Y'));
+        //$this->setMonth($date->format('m'));
         $this->processMembershipFee($amount);
       }
     //}
