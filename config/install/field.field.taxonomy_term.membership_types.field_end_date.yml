@@ -10,7 +10,7 @@ id: taxonomy_term.membership_types.field_end_date
 field_name: field_end_date
 entity_type: taxonomy_term
 bundle: membership_types
-label: 'End date'
+label: 'Date: End'
 description: ''
 required: true
 translatable: false

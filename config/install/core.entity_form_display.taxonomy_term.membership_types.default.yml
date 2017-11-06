@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.taxonomy_term.membership_types.field_end_date
     - field.field.taxonomy_term.membership_types.field_minimum_price
+    - field.field.taxonomy_term.membership_types.field_social_tariff
     - field.field.taxonomy_term.membership_types.field_start_date
     - taxonomy.vocabulary.membership_types
   module:
@@ -35,6 +36,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_social_tariff:
+    weight: 34
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_start_date:
     weight: 32

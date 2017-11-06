@@ -229,6 +229,7 @@ class MembershipService {
       // create a membership, deduct the regime price of the amount. Repeat.
       while($amount > 0) {
 
+        //
         if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'Donate'
           && $i > 0) {
           $sale_data = [

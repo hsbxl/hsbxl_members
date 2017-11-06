@@ -10,7 +10,7 @@ id: taxonomy_term.membership_types.field_start_date
 field_name: field_start_date
 entity_type: taxonomy_term
 bundle: membership_types
-label: 'Start date'
+label: 'Date Start'
 description: ''
 required: true
 translatable: false
