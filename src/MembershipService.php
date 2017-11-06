@@ -347,6 +347,7 @@ class MembershipService {
 
     $query = $this->entity_query->get('taxonomy_term');
     $query->condition('vid', 'membership_types');
+    $query->condition('field_social_tariff', FALSE);
     $query->condition('field_start_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '<=');
     $query->condition('field_end_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '>=');
     $query->sort('field_minimum_price' , 'DESC');

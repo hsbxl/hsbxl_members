@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @QueueWorker(
  *   id = "statements_queue_processor",
  *   title = @Translation("Generate membership months from statements in the queue"),
- *   cron = {"time" = 10}
+ *   cron = {"time" = 45}
  * )
  */
 class StatementsQueueProcessor extends QueueWorkerBase implements ContainerFactoryPluginInterface {
