@@ -5,26 +5,22 @@ use Drupal\hsbxl_members\MembershipService;
 use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
- * Implements hook_entity_insert().
+ * Implements hook_ENTITY_TYPE_presave().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
-function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
-  $config = \Drupal::config('hsbxl_members.settings');
+function hsbxl_members_booking_presave(Drupal\Core\Entity\EntityInterface $entity) {
   $membershipService = \Drupal::service('hsbxl_members.membership');
 
-  // If the bundle is a bankstatement,
-  // check if it was a membership payment.
-  if ($entity->bundle() == 'bankstatement') {
+  if ($entity->bundle() == 'sale') {
+    foreach ($entity->get('field_booking_tags')->referencedEntities() as $tag) {
+      $tags[] = $tag->label();
+    }
 
-    $amount = $entity->get('field_booking_amount')->getValue()[0]['value'];
-    $date = new DrupalDateTime($entity->get('field_booking_date')->getValue()[0]['value']);
+    $entity->set('name', implode(', ', $tags));
 
-    if($amount > 0) {
-      $membershipService->setStatement($entity);
-      $membershipService->setYear($date->format('Y'));
-      $membershipService->setMonth($date->format('m'));
-      //$membershipService->processMembershipFee($amount);
+    if(in_array('membership', $tags)) {
+      // todo: check if we have an existing memberhip, if not, create membership
     }
   }
 }

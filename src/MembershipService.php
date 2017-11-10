@@ -21,6 +21,7 @@ class MembershipService {
   protected $structured_memo;
   protected $entity_query;
   protected $statement;
+  protected $socialtariff;
 
   public function __construct(QueryFactory $entity_query, EntityManagerInterface $entityManager, BookkeepingService $bookkeeping) {
     $this->entity_query = $entity_query;
@@ -51,7 +52,11 @@ class MembershipService {
 
   public function setStructuredMemo($structured_memo) {
     $this->structured_memo = $structured_memo;
-    $this->setHsbxlMember($this->getMemoMember($structured_memo));
+    $member = $this->getMemoMember($structured_memo);
+    $this->setHsbxlMember($member);
+    if($member) {
+      $this->socialtariff = $member->get('field_social_tariff')->getValue()[0]['value'] ? TRUE : FALSE;
+    }
   }
 
 
@@ -219,7 +224,7 @@ class MembershipService {
     return $tag;
   }
 
-  public function processMembershipFee($amount) {
+  public function processMembershipFee($amount, $social = FALSE) {
     $config = \Drupal::config('hsbxl_members.settings');
     $i = 0;
 
@@ -249,12 +254,10 @@ class MembershipService {
           $statement->field_booking[] = $sale;
           $statement->field_completed = TRUE;
           $statement->save();
-
-          break;
         }
 
         $next_membership = $this->getNextMembership();
-        $regime = $this->detectMembershipRegime($amount);
+        $regime = $this->detectMembershipRegime($amount, $social);
         $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
         $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
 
@@ -280,7 +283,6 @@ class MembershipService {
             $statement->field_completed = TRUE;
             $statement->save();
           }
-          break;
         }
 
         $sale_data = [
@@ -309,6 +311,7 @@ class MembershipService {
           'field_year' => $next_membership['year'],
           'field_month' => $next_membership['month'],
           'field_membership_payment_regime' => $regime,
+          'uid' => 1,
         ];
 
         $membership = Membership::create($membershipdata);
@@ -418,11 +421,23 @@ class MembershipService {
       $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
 
       if($amount > 0) {
-        //$this->setYear($date->format('Y'));
-        //$this->setMonth($date->format('m'));
-        $this->processMembershipFee($amount);
+        $this->processMembershipFee($amount, $this->socialtariff);
       }
     //}
+  }
+
+  public function createMembership() {
+
+    $membership_data = [
+      'name' => 'Membership',
+      'field_booking' => $this->sale,
+      'field_month' => $this->month,
+      'field_year' => $this->year,
+      'uid' => 1
+    ];
+
+    $membership = Membership::create($membership_data);
+    $membership->save();
   }
 
 }
