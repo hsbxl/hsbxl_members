@@ -13,15 +13,13 @@ function hsbxl_members_booking_presave(Drupal\Core\Entity\EntityInterface $entit
   $membershipService = \Drupal::service('hsbxl_members.membership');
 
   if ($entity->bundle() == 'sale') {
+    $tags = [];
+
     foreach ($entity->get('field_booking_tags')->referencedEntities() as $tag) {
       $tags[] = $tag->label();
     }
 
     $entity->set('name', implode(', ', $tags));
-
-    if(in_array('membership', $tags)) {
-      // todo: check if we have an existing memberhip, if not, create membership
-    }
   }
 }
 

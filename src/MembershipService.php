@@ -69,9 +69,8 @@ class MembershipService {
       $this->statement = $statement;
     }
     if(is_int($statement)) {
-      $statement = $this->statement = \Drupal::entityTypeManager()
-        ->getStorage('booking')
-        ->load($statement);
+      $statement = BookingEntity::load($statement);
+      $this->statement = $statement;
     }
 
     $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
@@ -224,8 +223,36 @@ class MembershipService {
     return $tag;
   }
 
-  public function processMembershipFee($amount, $social = FALSE) {
-    $config = \Drupal::config('hsbxl_members.settings');
+  public function processMembershipSale($sale) {
+    $amount = 123;
+    $social = $this->socialtariff;
+
+    // Only go further if we have a hsbxl_member.
+    if(is_object($this->hsbxl_member)) {
+
+      $next_membership = $this->getNextMembership();
+      $regime = $this->detectMembershipRegime($amount, $social);
+      $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
+      $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
+
+      $membershipdata = [
+        'field_membership_member' => $this->hsbxl_member,
+        'type' => 'membership',
+        'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
+        'field_booking' => $sale,
+        'field_year' => $next_membership['year'],
+        'field_month' => $next_membership['month'],
+        'field_membership_payment_regime' => $regime,
+        'uid' => 1,
+      ];
+
+      $membership = Membership::create($membershipdata);
+      $membership->save();
+    }
+  }
+
+  public function processMembershipFee($amount) {
+    $social = $this->socialtariff;
     $i = 0;
 
     // Only go further if we have a hsbxl_member.
@@ -234,7 +261,6 @@ class MembershipService {
       // create a membership, deduct the regime price of the amount. Repeat.
       while($amount > 0) {
 
-        //
         if($this->statement->get('field_booking_repeat_membership')->getValue()[0]['value'] == 'Donate'
           && $i > 0) {
           $sale_data = [
@@ -421,7 +447,7 @@ class MembershipService {
       $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
 
       if($amount > 0) {
-        $this->processMembershipFee($amount, $this->socialtariff);
+        $this->processMembershipFee($amount);
       }
     //}
   }
