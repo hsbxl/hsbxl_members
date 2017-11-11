@@ -19,7 +19,7 @@ function hsbxl_members_booking_presave(Drupal\Core\Entity\EntityInterface $entit
       $tags[] = $tag->label();
     }
 
-    $entity->set('name', implode(', ', $tags));
+    //$entity->set('name', implode(', ', $tags));
   }
 }
 

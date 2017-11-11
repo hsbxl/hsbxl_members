@@ -252,8 +252,10 @@ class MembershipService {
   }
 
   public function processMembershipFee($amount) {
-    $social = $this->socialtariff;
-    $i = 0;
+    $social = FALSE; $i = 0;
+    if(isset($this->socialtariff)) {
+      $social = $this->socialtariff;
+    }
 
     // Only go further if we have a hsbxl_member.
     if(is_object($this->hsbxl_member)) {
@@ -280,6 +282,7 @@ class MembershipService {
           $statement->field_booking[] = $sale;
           $statement->field_completed = TRUE;
           $statement->save();
+          break;
         }
 
         $next_membership = $this->getNextMembership();
