@@ -281,6 +281,9 @@ class MembershipService {
             $statement->field_booking[] = $sale;
             $statement->field_completed = TRUE;
             $statement->save();
+
+            $amount = 0;
+            break;
           }
         }
 
