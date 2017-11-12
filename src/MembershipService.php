@@ -223,42 +223,12 @@ class MembershipService {
     return $tag;
   }
 
-  public function processMembershipSale($sale) {
-    $amount = 123;
-    $social = $this->socialtariff;
-
-    // Only go further if we have a hsbxl_member.
-    if(is_object($this->hsbxl_member)) {
-
-      $next_membership = $this->getNextMembership();
-      $regime = $this->detectMembershipRegime($amount, $social);
-      $first_name = $this->hsbxl_member->get('field_first_name')->getValue()[0]['value'];
-      $last_name = $this->hsbxl_member->get('field_last_name')->getValue()[0]['value'];
-
-      $membershipdata = [
-        'field_membership_member' => $this->hsbxl_member,
-        'type' => 'membership',
-        'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
-        'field_booking' => $sale,
-        'field_year' => $next_membership['year'],
-        'field_month' => $next_membership['month'],
-        'field_membership_payment_regime' => $regime,
-        'uid' => 1,
-      ];
-
-      $membership = Membership::create($membershipdata);
-      $membership->save();
-    }
-  }
-
   public function processMembershipFee($amount) {
-    $social = FALSE; $i = 0;
-    if(isset($this->socialtariff)) {
-      $social = $this->socialtariff;
-    }
+    $i = 0;
 
     // Only go further if we have a hsbxl_member.
     if(is_object($this->hsbxl_member)) {
+      $social = $this->hsbxl_member->get('field_social_tariff')->getValue()[0]['value'] ? TRUE : FALSE;
 
       // create a membership, deduct the regime price of the amount. Repeat.
       while($amount > 0) {
@@ -355,9 +325,9 @@ class MembershipService {
     return $i;
   }
 
-  public function detectMembershipRegime($amount) {
+  public function detectMembershipRegime($amount, $social) {
     // go over all regimes of the set year and month.
-    foreach ($this->getMembershipRegimes() as $regime) {
+    foreach ($this->getMembershipRegimes($social) as $regime) {
       // if the amount is the minimum price or above, return regime.
       if($amount >= $regime['minimum_price']) {
         return $regime;
@@ -368,7 +338,7 @@ class MembershipService {
     return FALSE;
   }
 
-  public function getMembershipRegimes() {
+  public function getMembershipRegimes($social) {
     $membership_regimes = [];
 
     if($this->year > 0 || $this->month > 0) {
@@ -379,7 +349,7 @@ class MembershipService {
 
     $query = $this->entity_query->get('taxonomy_term');
     $query->condition('vid', 'membership_types');
-    $query->condition('field_social_tariff', FALSE);
+    $query->condition('field_social_tariff', $social);
     $query->condition('field_start_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '<=');
     $query->condition('field_end_date', $date->format(DATETIME_DATETIME_STORAGE_FORMAT), '>=');
     $query->sort('field_minimum_price' , 'DESC');
