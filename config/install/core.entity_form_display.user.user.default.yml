@@ -16,7 +16,6 @@ dependencies:
   module:
     - image
     - path
-    - text
     - user
 id: user.user.default
 targetEntityType: user
@@ -28,14 +27,6 @@ content:
     region: content
   contact:
     weight: 5
-    region: content
-  field_membership_reason:
-    weight: 31
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: text_textarea
     region: content
   language:
     weight: 0
@@ -61,6 +52,7 @@ hidden:
   field_board_member: true
   field_first_name: true
   field_last_name: true
+  field_membership_reason: true
   field_social_tariff: true
   field_space_coins: true
   field_structured_memo: true

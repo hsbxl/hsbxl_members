@@ -8,8 +8,8 @@ dependencies:
 third_party_settings:
   field_permissions:
     permission_type: public
-id: membership.field_booking
-field_name: field_booking
+id: membership.field_sale
+field_name: field_sale
 entity_type: membership
 type: entity_reference
 settings:

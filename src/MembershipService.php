@@ -111,7 +111,7 @@ class MembershipService {
 
     foreach ($mids as $mid) {
       $membership = $memberships_storage->load($mid);
-      $memberships[] = $membership->get('field_booking')->target_id;
+      $memberships[] = $membership->get('field_sale')->target_id;
       unset($membership);
     }
 
@@ -135,7 +135,7 @@ class MembershipService {
       return [
         'year' => $membership->get('field_year')->getValue()[0]['value'],
         'month' => $membership->get('field_month')->getValue()[0]['value'],
-        'booking' => $membership->get('field_booking')->getValue()[0]['target_id'],
+        'booking' => $membership->get('field_sale')->getValue()[0]['target_id'],
         'regime' => '',
       ];
     }
@@ -159,7 +159,7 @@ class MembershipService {
       return [
         'year' => $membership->get('field_year')->getValue()[0]['value'],
         'month' => $membership->get('field_month')->getValue()[0]['value'],
-        'booking' => $membership->get('field_booking')->getValue()[0]['target_id'],
+        'booking' => $membership->get('field_sale')->getValue()[0]['target_id'],
         'regime' => '',
       ];
     }
@@ -240,7 +240,7 @@ class MembershipService {
             'name' => 'donation',
             'field_booking_amount' => $amount,
             'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
-            'field_booking' => $this->statement,
+            //'field_booking' => $this->statement,
             'field_booking_tags' => $this->getDonationTag(),
             'uid' => 1
           ];
@@ -250,7 +250,7 @@ class MembershipService {
           // Save the statement with the donation sale added.
           $statement = BookingEntity::load($this->statement->id());
           $statement->field_booking[] = $sale;
-          $statement->field_completed = TRUE;
+          $statement->field_booking_status = 'completed';
           $statement->save();
           break;
         }
@@ -269,7 +269,7 @@ class MembershipService {
               'name' => 'donation',
               'field_booking_amount' => $amount,
               'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
-              'field_booking' => $this->statement,
+              //'field_booking' => $this->statement,
               'field_booking_tags' => $this->getDonationTag(),
               'uid' => 1
             ];
@@ -279,7 +279,7 @@ class MembershipService {
             // Save the statement with the donation sale added.
             $statement = BookingEntity::load($this->statement->id());
             $statement->field_booking[] = $sale;
-            $statement->field_completed = TRUE;
+            $statement->field_booking_status = 'completed';
             $statement->save();
 
             $amount = 0;
@@ -292,7 +292,7 @@ class MembershipService {
           'name' => 'Membership ' . $next_membership['month'] . '-' . $next_membership['year'],
           'field_booking_amount' => $regime['minimum_price'],
           'field_booking_date' => $this->statement->get('field_booking_date')->getValue()[0]['value'],
-          'field_booking' => $this->statement,
+          //'field_booking' => $this->statement,
           'field_booking_tags' => $this->getMembershipTag(),
           'uid' => 1
         ];
@@ -300,16 +300,21 @@ class MembershipService {
         $sale = BookingEntity::create($sale_data);
         $sale->save();
 
+        $amount = $amount - $regime['minimum_price'];
+
         // Save the statement with the membership sale added.
         $statement = BookingEntity::load($this->statement->id());
         $statement->field_booking[] = $sale;
+        if($amount == 0) {
+          $statement->field_booking_status = 'completed';
+        }
         $statement->save();
 
         $membershipdata = [
           'field_membership_member' => $this->hsbxl_member,
           'type' => 'membership',
           'name' => 'membership ' . $first_name . ' ' . $last_name . ': ' . $next_membership['month'] . '/' . $next_membership['year'],
-          'field_booking' => $sale,
+          'field_sale' => $sale,
           'field_year' => $next_membership['year'],
           'field_month' => $next_membership['month'],
           'field_membership_payment_regime' => $regime,
@@ -319,8 +324,6 @@ class MembershipService {
         $membership = Membership::create($membershipdata);
         $membership->save();
         $i++;
-
-        $amount = $amount - $regime['minimum_price'];
       }
     }
 
@@ -417,6 +420,8 @@ class MembershipService {
     $this->setStatement((int)$statement_id);
     $statement = $this->statement;
 
+    $a = 0;
+
     //if ($statement->bundle() == 'bankstatement') {
 
       $amount = $statement->get('field_booking_amount')->getValue()[0]['value'];
@@ -432,7 +437,7 @@ class MembershipService {
 
     $membership_data = [
       'name' => 'Membership',
-      'field_booking' => $this->sale,
+      'field_sale' => $this->sale,
       'field_month' => $this->month,
       'field_year' => $this->year,
       'uid' => 1

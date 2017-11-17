@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.membership.field_booking
+    - field.storage.membership.field_sale
     - simplified_bookkeeping.booking_type.sale
   module:
     - hsbxl_members
-id: membership.membership.field_booking
-field_name: field_booking
+id: membership.membership.field_sale
+field_name: field_sale
 entity_type: membership
 bundle: membership
-label: Booking
+label: Sale
 description: ''
 required: false
 translatable: false
@@ -22,7 +22,7 @@ settings:
     target_bundles:
       sale: sale
     sort:
-      field: field_sale_date
+      field: id
       direction: DESC
     auto_create: false
     auto_create_bundle: ''

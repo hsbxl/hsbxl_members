@@ -2,10 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.membership.membership.field_booking
     - field.field.membership.membership.field_membership_member
     - field.field.membership.membership.field_membership_payment_regime
     - field.field.membership.membership.field_month
+    - field.field.membership.membership.field_sale
     - field.field.membership.membership.field_year
   module:
     - hsbxl_members
@@ -15,14 +15,6 @@ targetEntityType: membership
 bundle: membership
 mode: default
 content:
-  field_booking:
-    weight: 5
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_membership_member:
     weight: 0
     label: inline
@@ -45,6 +37,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: list_default
+    region: content
+  field_sale:
+    weight: 6
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_year:
     weight: 2
