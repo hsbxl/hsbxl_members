@@ -37,11 +37,6 @@ class StatementsQueueProcessor extends QueueWorkerBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function processItem($sid) {
-
-    /*$booking_storage = $this
-      ->entityTypeManager
-      ->getStorage('booking');*/
-
     $membership = \Drupal::service('hsbxl_members.membership');
     $membership->processStatement($sid);
   }

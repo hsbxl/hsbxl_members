@@ -10,16 +10,14 @@ use Drupal\Core\Datetime\DrupalDateTime;
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function hsbxl_members_booking_presave(Drupal\Core\Entity\EntityInterface $entity) {
-  $membershipService = \Drupal::service('hsbxl_members.membership');
-
-  if ($entity->bundle() == 'sale') {
+  if ($entity->bundle() == 'sale' || $entity->bundle() == 'purchase') {
     $tags = [];
 
     foreach ($entity->get('field_booking_tags')->referencedEntities() as $tag) {
       $tags[] = $tag->label();
     }
 
-    //$entity->set('name', implode(', ', $tags));
+    $entity->set('name', implode(', ', $tags));
   }
 }
 
