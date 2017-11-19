@@ -32,7 +32,6 @@ class StatementsQueueProcessor extends QueueWorkerBase implements ContainerFacto
     );
   }
 
-
   /**
    * {@inheritdoc}
    */

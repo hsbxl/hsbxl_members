@@ -68,7 +68,7 @@ class MembershipService {
     if(is_object($statement)) {
       $this->statement = $statement;
     }
-    if(is_int($statement)) {
+    if(is_numeric($statement)) {
       $statement = BookingEntity::load($statement);
       $this->statement = $statement;
     }
@@ -224,7 +224,6 @@ class MembershipService {
   }
 
   public function processMembershipFee($amount) {
-    $i = 0;
 
     // Only go further if we have a hsbxl_member.
     if(is_object($this->hsbxl_member)) {
@@ -419,16 +418,12 @@ class MembershipService {
   public function processStatement($statement_id) {
     $this->setStatement((int)$statement_id);
     $statement = $this->statement;
+    $status = $statement->get('field_booking_status')->getValue()[0]['value'];
+    $amount = $statement->get('field_booking_amount')->getValue()[0]['value'];
 
-    //if ($statement->bundle() == 'bankstatement') {
-
-      $amount = $statement->get('field_booking_amount')->getValue()[0]['value'];
-      $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
-
-      if($amount > 0) {
-        $this->processMembershipFee($amount);
-      }
-    //}
+    if($amount > 0 && $status == 'unprocessed') {
+      $this->processMembershipFee($amount);
+    }
   }
 
   public function createMembership() {
