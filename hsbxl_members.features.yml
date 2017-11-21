@@ -1,3 +1,4 @@
 excluded:
   - block.block.views_block__meeting_agenda_items_block_1
+  - core.entity_form_display.membership.membership.default
 required: true
