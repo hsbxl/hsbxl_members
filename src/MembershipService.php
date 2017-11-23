@@ -421,7 +421,7 @@ class MembershipService {
     $status = $statement->get('field_booking_status')->getValue()[0]['value'];
     $amount = $statement->get('field_booking_amount')->getValue()[0]['value'];
 
-    if($amount > 0 && $status == 'unprocessed') {
+    if($amount > 0 && $status == 'unfinished') {
       $this->processMembershipFee($amount);
     }
   }
