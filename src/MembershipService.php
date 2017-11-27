@@ -78,7 +78,7 @@ class MembershipService {
     $this->setMonth($date->format('m'));
 
     // we set the structured memo, which will also set the hsbxl_member.
-    $this->setStructuredMemo($statement->field_booking_memo->value);
+    $this->setStructuredMemo($statement->field_booking_memo_internal->value);
   }
 
   public function getStatement() {

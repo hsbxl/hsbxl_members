@@ -22,6 +22,17 @@ function hsbxl_members_booking_presave(Drupal\Core\Entity\EntityInterface $entit
 }
 
 /**
+ * Implements hook_entity_insert().
+ */
+function hsbxl_members_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() == 'sale' || $entity->bundle() == 'purchase') {
+
+    $a = 0;
+
+  }
+}
+
+/**
  * Cronjob callback.
  */
 function hsbxl_members_cronjob_queuemembership() {
