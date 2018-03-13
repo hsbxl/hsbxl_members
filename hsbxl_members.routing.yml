@@ -22,10 +22,3 @@ hsbxl_members.config_form:
     _title: 'Config HSBXL Members module'
   requirements:
     _permission: 'access bookkeeping'
-hsbxl_members.l_d_a_p_controller_all:
-  path: 'hsbxl_members/ldap'
-  defaults:
-    _controller: '\Drupal\hsbxl_members\Controller\LDAPController::all'
-    _title: 'all'
-  requirements:
-    _permission: 'access content'
