@@ -1,0 +1,5 @@
+services:
+  hsbxl_members.hsbxl_membersimport:
+    class: Drupal\hsbxl_members\Command\MembersImportCommand
+    tags:
+      - { name: drupal.command }

@@ -10,6 +10,7 @@ dependencies:
   - file
   - hsbxl_members
   - image
+  - ldap_servers
   - migrate_plus
   - options
   - path
