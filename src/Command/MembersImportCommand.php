@@ -81,9 +81,9 @@ class MembersImportCommand extends ContainerAwareCommand {
           $user->enforceIsNew();
           $user->setEmail($data[$i]["mail"][0]);
           $user->setUsername($data[$i]["uid"][0]);
-          $user->set('field_structured_memo', $data[$i]["x-hsbxl-membershipstructcomm"][0]);
-          $user->set('field_membership_reason', $data[$i]["description"][0]);
-          $user->set('field_telephone_number', $data[$i]["homephone"][0]);
+          $user->set('field_structured_memo', trim($data[$i]["x-hsbxl-membershipstructcomm"][0]));
+          $user->set('field_membership_reason', trim($data[$i]["description"][0]));
+          $user->set('field_telephone_number', trim($data[$i]["homephone"][0]));
 
           //$user->set("setting_name", 'setting_value');
           $user->activate();
