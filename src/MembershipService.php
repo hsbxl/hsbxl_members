@@ -74,12 +74,12 @@ class MembershipService {
     }
 
     $date = new DrupalDateTime($statement->get('field_booking_date')->getValue()[0]['value']);
-    $this->setYear($date->format('Y'));
-    $this->setMonth($date->format('m'));
 
     // we set the structured memo, which will also set the hsbxl_member.
     $this->setStructuredMemo($statement->field_booking_memo_internal->value);
   }
+
+
 
   public function getStatement() {
     return $this->statement;
@@ -205,7 +205,8 @@ class MembershipService {
         'parent' => array(),
         'name' => 'membership',
         'vid' => 'bookkeeping_tags',
-      ))->save();
+      ));
+      $tag->save();
     }
     return $tag;
   }
@@ -218,7 +219,8 @@ class MembershipService {
         'parent' => array(),
         'name' => 'donation',
         'vid' => 'bookkeeping_tags',
-      ))->save();
+      ));
+      $tag->save();
     }
     return $tag;
   }
@@ -365,6 +367,7 @@ class MembershipService {
 
     foreach ($query->execute() as $tid) {
       $membership_regime = $memberships_regimes_storage->load($tid);
+
       $membership_regimes[] = array(
         'id' => $membership_regime->get('tid')->value,
         'name' => $membership_regime->get('name')->value,
@@ -416,6 +419,7 @@ class MembershipService {
   }
 
   public function processStatement($statement_id) {
+
     $this->setStatement((int)$statement_id);
     $statement = $this->statement;
     $status = $statement->get('field_booking_status')->getValue()[0]['value'];
@@ -425,6 +429,7 @@ class MembershipService {
       $this->processMembershipFee($amount);
     }
   }
+
 
   public function createMembership() {
 
